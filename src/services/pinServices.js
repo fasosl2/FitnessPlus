@@ -1,33 +1,4 @@
-import { getStoredTable, generateId, saveStoredTable } from "./localStorageAPI";
-
-export const saveFolder = async (folderName) => {
-  var folders = await getFolders();
-
-  const id = generateId(folders);
-
-  const newFolder = {
-    id: id,
-    name: folderName,
-    pins: [],
-  };
-
-  folders.push(newFolder);
-  await saveStoredTable(folders, "folders");
-  return newFolder;
-};
-
-export const savePinInFolder = async (folderId, pinId) => {
-  const folders = await getFolders();
-  let folder = folders.find((elem) => elem.id === folderId);
-  folder && folder.pins.push(pinId);
-  await saveStoredTable(folders, "folders");
-  return folder ? { ...folder } : {};
-};
-
-export const getFolders = async () => {
-  const folders = await getStoredTable("folders");
-  return folders || [];
-};
+import { saveFolders, getFolders } from "./folderServices";
 
 export const getPins = async () => {
   return [
@@ -56,4 +27,22 @@ export const getPins = async () => {
       total: 0,
     },
   ];
+};
+
+export const savePinInFolder = async (folderId, pinId) => {
+  const folders = await getFolders();
+  let folder = folders.find((elem) => elem.id === folderId);
+  folder && folder.pins.push(pinId);
+  await saveFolders(folders);
+  return folder ? { ...folder } : {};
+};
+
+
+export const deletePinFromFolder = async (folderId, pinId) => {
+  const folders = await getFolders();
+  let folder = folders.find((elem) => elem.id === folderId);
+  let pinIndex = folder?.pins?.indexOf(pinId);
+  pinIndex && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
+  await saveFolders(folders);
+  return folder ? { ...folder } : {};
 };

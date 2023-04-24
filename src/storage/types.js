@@ -11,5 +11,8 @@ export const saveFoldersSuccessType = 'saveFoldersSuccess';
 export const savePinInFolderInitType = 'savePinInFolderInit';
 export const savePinInFolderSuccessType = 'savePinInFolderSuccess';
 
+export const deletePinFromFolderInitType = 'deletePinFromFolderInit';
+export const deletePinFromFolderSuccessType = 'deletePinFromFolderSuccess';
+
 export const fetchPinsInitType = 'fetchPinsInit';
 export const fetchPinsSuccessType = 'fetchPinsSuccess';

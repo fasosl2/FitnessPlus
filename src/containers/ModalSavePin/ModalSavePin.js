@@ -7,6 +7,7 @@ import {
   fetchFoldersAction,
   savePinInFolderAction,
   openModalSaveFolderAction,
+  deletePinFromFolderAction,
 } from "../../storage/actions";
 
 export const ModalSavePin = ({ open }) => {
@@ -17,9 +18,15 @@ export const ModalSavePin = ({ open }) => {
     dispatch(openModalSaveFolderAction());
   };
 
-  const handleButtonClick = async (folderId) => {
+  const handleSavePinClick = async (folderId) => {
     setItensLoading(prevState => ({...prevState,[folderId]:true}))
     await savePinInFolderAction(dispatch, folderId, state.activePinId);
+    setItensLoading(prevState => ({...prevState,[folderId]:false}))
+  };
+
+  const handleDeletePinClick = async (folderId) => {
+    setItensLoading(prevState => ({...prevState,[folderId]:true}))
+    await deletePinFromFolderAction(dispatch, folderId, state.activePinId);
     setItensLoading(prevState => ({...prevState,[folderId]:false}))
   };
 
@@ -50,10 +57,10 @@ export const ModalSavePin = ({ open }) => {
               <Col xs={8}>{folder.name}</Col>
               <Col xs={4} className="text-end">
                 <Button
-                  variant={pinSaved ? 'secondary' : 'primary'}
-                  onClick={() => handleButtonClick(folder.id)}
-                  label={pinSaved ? 'Salvo' : 'Salvar'}
-                  loadingLabel="Salvando"
+                  variant={pinSaved ? 'danger' : 'primary'}
+                  onClick={pinSaved ? () => handleDeletePinClick(folder.id) : () => handleSavePinClick(folder.id)}
+                  label={pinSaved ? 'Excluir' : 'Salvar'}
+                  loadingLabel={pinSaved ? 'Excluindo' : 'Salvando'}
                   loading={itensLoading[folder.id]}
                 />
               </Col>

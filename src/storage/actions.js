@@ -1,7 +1,9 @@
-import { getPins, savePinInFolder } from "../services/pinServices";
-import { getFolders, saveFolder } from "../services/pinServices";
+import { deletePinFromFolder, getPins, savePinInFolder } from "../services/pinServices";
+import { getFolders, saveFolder } from "../services/folderServices";
 import {
   closeModalsType,
+  deletePinFromFolderInitType,
+  deletePinFromFolderSuccessType,
   fetchFoldersInitType,
   fetchFoldersSuccessType,
   fetchPinsInitType,
@@ -95,4 +97,21 @@ export const fetchPinsAction = async (dispatch) => {
   dispatch(fetchPinsInitAction());
   const pins = await getPins();
   dispatch(fetchPinsSuccessAction(pins));
+};
+
+export const deletePinFromFolderInitAction = () => ({
+  type: deletePinFromFolderInitType,
+});
+
+export const deletePinFromFolderSuccessAction = (folders) => ({
+  type: deletePinFromFolderSuccessType,
+  payload: folders
+});
+
+export const deletePinFromFolderAction = async (dispatch,folderId,pinId) => {
+  dispatch(deletePinFromFolderInitAction());
+  await sleep(1000);
+  await deletePinFromFolder(folderId,pinId);
+  const folders = await getFolders();
+  dispatch(deletePinFromFolderSuccessAction(folders));
 };
