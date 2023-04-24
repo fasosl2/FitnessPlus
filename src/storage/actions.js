@@ -1,4 +1,4 @@
-import { deletePinFromFolder, getPins, savePinInFolder } from "../services/pinServices";
+import { deletePinFromFolder, getPins, savePin, savePinInFolder } from "../services/pinServices";
 import { deleteFolder, getFolders, saveFolder } from "../services/folderServices";
 import {
   closeModalsType,
@@ -10,12 +10,15 @@ import {
   fetchFoldersSuccessType,
   fetchPinsInitType,
   fetchPinsSuccessType,
+  openModalCreatePinType,
   openModalSaveFolderType,
   openModalSavePinType,
   saveFoldersInitType,
   saveFoldersSuccessType,
   savePinInFolderInitType,
   savePinInFolderSuccessType,
+  savePinsInitType,
+  savePinsSuccessType,
 } from "./types";
 
 export const sleep = (time) => (
@@ -23,7 +26,9 @@ export const sleep = (time) => (
     setTimeout(resolve,time)
   })
 );
-
+export const openModalCreatePinAction = () => ({
+  type: openModalCreatePinType
+});
 export const openModalSavePinAction = (pinId) => ({
   type: openModalSavePinType,
   payload: pinId
@@ -132,4 +137,21 @@ export const deleteFolderAction = async (dispatch,folderId) => {
   await sleep(1000);
   const folders = await deleteFolder(folderId);
   dispatch(deleteFolderSuccessAction(folders));
+};
+
+
+export const savePinsInitAction = () => ({
+  type: savePinsInitType,
+});
+
+export const savePinsSuccessAction = (pins) => ({
+  type: savePinsSuccessType,
+  payload: pins
+});
+
+export const savePinsAction = async (dispatch,pinName) => {
+  dispatch(savePinsInitAction());
+  await sleep(1000);
+  const newPin = await savePin(pinName);
+  dispatch(savePinsSuccessAction(newPin));
 };

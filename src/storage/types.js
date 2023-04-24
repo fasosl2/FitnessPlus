@@ -1,9 +1,13 @@
 export const openModalSavePinType = 'modalSavePin';
+export const openModalCreatePinType = 'modalCreatePin';
 export const openModalSaveFolderType = 'modalCreateFolder';
 export const closeModalsType = 'closeModals';
 
 export const fetchFoldersInitType = 'fetchFoldersInit';
 export const fetchFoldersSuccessType = 'fetchFoldersSuccess';
+
+export const savePinsInitType = 'savePinsInit';
+export const savePinsSuccessType = 'savePinsSuccess';
 
 export const saveFoldersInitType = 'saveFoldersInit';
 export const saveFoldersSuccessType = 'saveFoldersSuccess';

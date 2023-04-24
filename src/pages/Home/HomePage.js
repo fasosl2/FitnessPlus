@@ -6,7 +6,9 @@ import { CardContainer } from "../../containers/CardContainer/CardContainer";
 import { saveFoldersSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
-import { fetchPinsAction, sleep } from "../../storage/actions";
+import { fetchPinsAction, openModalCreatePinAction, sleep } from "../../storage/actions";
+import { ModalCreatePin } from "../../containers/ModalCreatePin/ModalCreatePin";
+import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 
 export const HomePage = () => {
   const { state,dispatch } = useAppContext();
@@ -26,6 +28,11 @@ total: state.folders.reduce((count,folder)=> folder.pins.includes(pin.id) ? ++co
       setShowFeedback(false);
   }
 
+  
+  const handlePlusButtonClick = (pinId) => {
+    dispatch(openModalCreatePinAction())
+}
+
   useEffect(() => {
     if (state.type === saveFoldersSuccessType) {
       handleShowFeedback();
@@ -33,9 +40,11 @@ total: state.folders.reduce((count,folder)=> folder.pins.includes(pin.id) ? ++co
   }, [state.type]);
 
   return (
-    <div>
+    <div>{state.mode}
       <ModalSavePin open={state.mode === "savePin"} />
       <ModalCreateFolder open={state.mode === "createFolder"} />
+      <ModalCreatePin open={state.mode === "createPin"} />
+      <FloatingPillButton label="+"  onClick={handlePlusButtonClick}/>
       {showFeedback && (
         <Notification
           message="Criado com sucesso"

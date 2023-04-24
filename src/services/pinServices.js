@@ -1,32 +1,32 @@
 import { saveFolders, getFolders } from "./folderServices";
+import { generateId, getStoredTable, saveStoredTable } from "./localStorageAPI";
 
 export const getPins = async () => {
-  return [
-    {
-      id: 1,
-      title: "Matemática",
-      image: "https://picsum.photos/200/300?53",
-      total: 0,
-    },
-    {
-      id: 2,
-      title: "Português",
-      image: "https://picsum.photos/200/300?43",
-      total: 0,
-    },
-    {
-      id: 3,
-      title: "Geografia",
-      image: "https://picsum.photos/200/300?33",
-      total: 0,
-    },
-    {
-      id: 4,
-      title: "História",
-      image: "https://picsum.photos/200/300?23",
-      total: 0,
-    },
-  ];
+  const pins = await getStoredTable("pins");
+  return pins || [];
+};
+
+
+export const savePins = async (pins) => {
+  await saveStoredTable(pins, "pins");
+};
+
+
+export const savePin = async (pinName) => {
+  var pins = await getPins();
+
+  const id = generateId(pins);
+
+  const newPin = {
+    id: id,
+    title: pinName,
+    image: "https://picsum.photos/200/300?" + Math.floor(Math.random() * 100),
+    total: 0,
+  };
+
+  pins.push(newPin);
+  await saveStoredTable(pins, "pins");
+  return newPin;
 };
 
 export const savePinInFolder = async (folderId, pinId) => {
