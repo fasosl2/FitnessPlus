@@ -40,7 +40,7 @@ total: state.folders.reduce((count,folder)=> folder.pins.includes(pin.id) ? ++co
   }, [state.type]);
 
   return (
-    <div>{state.mode}
+    <div>
       <ModalSavePin open={state.mode === "savePin"} />
       <ModalCreateFolder open={state.mode === "createFolder"} />
       <ModalCreatePin open={state.mode === "createPin"} />
