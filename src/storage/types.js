@@ -8,6 +8,9 @@ export const fetchFoldersSuccessType = 'fetchFoldersSuccess';
 export const saveFoldersInitType = 'saveFoldersInit';
 export const saveFoldersSuccessType = 'saveFoldersSuccess';
 
+export const deleteFolderInitType = 'deleteFolderInit';
+export const deleteFolderSuccessType = 'deleteFolderSuccess';
+
 export const savePinInFolderInitType = 'savePinInFolderInit';
 export const savePinInFolderSuccessType = 'savePinInFolderSuccess';
 

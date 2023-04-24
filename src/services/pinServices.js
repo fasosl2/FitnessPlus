@@ -39,10 +39,10 @@ export const savePinInFolder = async (folderId, pinId) => {
 
 
 export const deletePinFromFolder = async (folderId, pinId) => {
-  const folders = await getFolders();
+  let folders = await getFolders();
   let folder = folders.find((elem) => elem.id === folderId);
   let pinIndex = folder?.pins?.indexOf(pinId);
-  pinIndex && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
+  pinIndex !== null && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
   await saveFolders(folders);
   return folder ? { ...folder } : {};
 };

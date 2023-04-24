@@ -59,8 +59,8 @@ export const ModalSavePin = ({ open }) => {
                 <Button
                   variant={pinSaved ? 'danger' : 'primary'}
                   onClick={pinSaved ? () => handleDeletePinClick(folder.id) : () => handleSavePinClick(folder.id)}
-                  label={pinSaved ? 'Excluir' : 'Salvar'}
-                  loadingLabel={pinSaved ? 'Excluindo' : 'Salvando'}
+                  label={pinSaved ? 'Remover' : 'Salvar'}
+                  loadingLabel={pinSaved ? 'Removendo' : 'Salvando'}
                   loading={itensLoading[folder.id]}
                 />
               </Col>

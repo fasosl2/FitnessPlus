@@ -1,5 +1,6 @@
 import {
   closeModalsType,
+  deleteFolderSuccessType,
   deletePinFromFolderSuccessType,
   fetchFoldersSuccessType,
   fetchPinsSuccessType,
@@ -36,6 +37,9 @@ export function reducer(state, action) {
       stateAction.folders = action.payload;
       break;
     case deletePinFromFolderSuccessType:
+      stateAction.folders = action.payload;
+      break;
+    case deleteFolderSuccessType:
       stateAction.folders = action.payload;
       break;
     case fetchPinsSuccessType:
