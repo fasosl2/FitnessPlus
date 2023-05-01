@@ -2,44 +2,63 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { closeModalsAction, savePinsAction } from "../../storage/actions";
+import { closeModalsAction, fetchGroupsAction, savePinsAction } from "../../storage/actions";
 import { savePinsInitType, savePinsSuccessType } from "../../storage/types";
 
 export const ModalCreatePin = ({ open }) => {
-    const [pinName,setPinName] = useState('');
+  const [exerciseData,setExerciseData] = useState({name:'',group:''});
     const { state, dispatch } = useAppContext();
+
     const handleSubmit = (e) =>{
         e.preventDefault();
-        savePinsAction(dispatch,pinName)
+        savePinsAction(dispatch,exerciseData);
     }
+
     useEffect(() => {
       if (state.type === savePinsSuccessType) {
-        setPinName('');
+        setExerciseData({name:'',group:''});
         dispatch(closeModalsAction());
       }
     }, [state.type,dispatch]);
 
-    const handleChange = (e) => setPinName(e.target.value);
+    
+    useEffect(() => {
+      fetchGroupsAction(dispatch);
+    }, [dispatch]);
+
+    const handleChange = (e,field) => setExerciseData(prevState => ({...prevState,[field]:e.target.value}));
   return (
     <Modal
-      title="Criar Pin"
+      title="Criar Exercício"
       open={open}
       controls={[
         {
-          label: "Criar e Salvar",
-          loadingLabel: "Criando",
+          label: "Salvar",
+          loadingLabel: "Salvando",
           loading: state.type === savePinsInitType,
           variant: "secondary",
           type: "submit",
-          form: "form-criar-pasta",
+          form: "form-criar-pin",
           onClick: () => {},
         },
       ]}
     >
-      <Form onSubmit={handleSubmit} id="form-criar-pasta">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Nome do Pin</Form.Label>
-          <Form.Control type="text" placeholder="Ex: Trigonometria" value={pinName} onChange={handleChange}/>
+      <Form onSubmit={handleSubmit} id="form-criar-pin">
+        <Form.Group className="mb-3" controlId="formCreatePin">
+          <Form.Label>Nome do Exercício</Form.Label>
+          <Form.Control required type="text"
+          placeholder="Ex: Rosca Direta" 
+          value={exerciseData?.name} 
+          onChange={(e) =>handleChange(e,'name')}/>
+          <br/>
+          <select required 
+          className="form-select form-select-md" 
+          value={exerciseData?.group} 
+          onChange={(e) =>handleChange(e,'group')}>
+            <option disabled value="">Selecione uma Grupo Muscular</option>
+            {state?.groups?.map(group => (<option value={group} key={group}>{group}</option>))}
+            
+          </select>
         </Form.Group>
       </Form>
     </Modal>

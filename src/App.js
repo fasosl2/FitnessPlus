@@ -6,10 +6,12 @@ import { AppContext } from "./storage/AppContext";
 
 const initialState = {
   activePinId: null,
+  activeGroup: "",
   mode: null,
-  folders: [],
   type: null,
-  pins: []
+  folders: [],
+  groups: [],
+  pins: [],
 };
 
 function App() {

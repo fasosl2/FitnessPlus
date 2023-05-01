@@ -1,8 +1,9 @@
 import {
   closeModalsType,
   deleteFolderSuccessType,
-  deletePinFromFolderSuccessType,
+  removePinFromFolderSuccessType,
   fetchFoldersSuccessType,
+  fetchGroupsSuccessType,
   fetchPinsSuccessType,
   openModalCreatePinType,
   openModalSaveFolderType,
@@ -10,6 +11,8 @@ import {
   saveFoldersSuccessType,
   savePinInFolderSuccessType,
   savePinsSuccessType,
+  setCurrentGroupSuccessType,
+  deletePinSuccessType,
 } from "./types";
 
 export function reducer(state, action) {
@@ -41,14 +44,23 @@ export function reducer(state, action) {
     case savePinInFolderSuccessType:
       stateAction.folders = action.payload;
       break;
-    case deletePinFromFolderSuccessType:
+    case removePinFromFolderSuccessType:
       stateAction.folders = action.payload;
       break;
     case deleteFolderSuccessType:
       stateAction.folders = action.payload;
       break;
+    case deletePinSuccessType:
+      stateAction = { ...stateAction, ...action.payload }
+      break;
     case fetchPinsSuccessType:
       stateAction.pins = [...action.payload];
+      break;
+    case fetchGroupsSuccessType:
+      stateAction.groups = [...action.payload];
+      break;
+    case setCurrentGroupSuccessType:
+      stateAction.activeGroup = action.payload;
       break;
     default:
       break;

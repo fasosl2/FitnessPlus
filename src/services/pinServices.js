@@ -1,8 +1,9 @@
 import { saveFolders, getFolders } from "./folderServices";
 import { generateId, getStoredTable, saveStoredTable } from "./localStorageAPI";
 
-export const getPins = async () => {
-  const pins = await getStoredTable("pins");
+export const getPins = async (activeGroup) => {
+  let pins = await getStoredTable("pins");
+  activeGroup && activeGroup !== '' && (pins = pins.filter(ele => ele.group === activeGroup));
   return pins || [];
 };
 
@@ -12,15 +13,16 @@ export const savePins = async (pins) => {
 };
 
 
-export const savePin = async (pinName) => {
+export const savePin = async ({ name, group}) => {
   var pins = await getPins();
 
   const id = generateId(pins);
 
   const newPin = {
     id: id,
-    title: pinName,
-    image: "https://picsum.photos/200/300?" + Math.floor(Math.random() * 100),
+    title: name,
+    group: group,
+    image: "https://picsum.photos/200/100?" + Math.floor(Math.random() * 100),
     total: 0,
   };
 
@@ -45,4 +47,20 @@ export const deletePinFromFolder = async (folderId, pinId) => {
   pinIndex !== null && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
   await saveFolders(folders);
   return folder ? { ...folder } : {};
+};
+
+
+export const deletePin = async (pinId) => {
+  let folders = await getFolders();
+  folders = folders.map((folder) => {
+    let pinIndex = folder?.pins?.indexOf(pinId);
+    pinIndex !== null && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
+    return folder;
+  });
+  await saveFolders(folders);
+  let pins = await getPins();
+  let pinIndex = pins?.findIndex(ele => ele.id === pinId);
+  pinIndex !== null && pinIndex !== -1 && pins.splice(pinIndex,1);
+  await savePins(pins);
+  return folders && pins ? { folders, pins } : {};
 };

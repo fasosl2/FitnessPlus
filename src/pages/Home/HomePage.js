@@ -19,8 +19,8 @@ total: state.folders.reduce((count,folder)=> folder.pins.includes(pin.id) ? ++co
 }));
 
   useEffect(() => {
-    fetchPinsAction(dispatch);
-  }, [dispatch]);
+    fetchPinsAction(dispatch,state?.activeGroup);
+  }, [dispatch,state.activeGroup]);
 
   const handleShowFeedback = async () => {
       setShowFeedback(true);

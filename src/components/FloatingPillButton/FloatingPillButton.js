@@ -3,7 +3,6 @@ import { Button } from "../../components/Button/Button";
 export const FloatingPillButton = ({ label, ...props }) => {
   return (
     <Button
-      pill
       bg="primary"
       style={{
         position: "fixed",

@@ -21,7 +21,7 @@ export const ModalCreateFolder = ({ open }) => {
     const handleChange = (e) => setFolderName(e.target.value);
   return (
     <Modal
-      title="Criar Pasta"
+      title="Criar Aluno"
       open={open}
       controls={[
         {
@@ -30,12 +30,12 @@ export const ModalCreateFolder = ({ open }) => {
           loading: state.type === saveFoldersInitType,
           variant: "secondary",
           type: "submit",
-          form: "form-criar-pasta",
+          form: "form-create-folder",
           onClick: () => {},
         },
       ]}
     >
-      <Form onSubmit={handleSubmit} id="form-criar-pasta">
+      <Form onSubmit={handleSubmit} id="form-create-folder">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Nome da pasta</Form.Label>
           <Form.Control type="text" placeholder="Ex: Matemática" value={folderName} onChange={handleChange}/>

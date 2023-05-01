@@ -7,7 +7,7 @@ import {
   fetchFoldersAction,
   savePinInFolderAction,
   openModalSaveFolderAction,
-  deletePinFromFolderAction,
+  removePinFromFolderAction,
 } from "../../storage/actions";
 
 export const ModalSavePin = ({ open }) => {
@@ -26,7 +26,7 @@ export const ModalSavePin = ({ open }) => {
 
   const handleDeletePinClick = async (folderId) => {
     setItensLoading(prevState => ({...prevState,[folderId]:true}))
-    await deletePinFromFolderAction(dispatch, folderId, state.activePinId);
+    await removePinFromFolderAction(dispatch, folderId, state.activePinId);
     setItensLoading(prevState => ({...prevState,[folderId]:false}))
   };
 
@@ -40,7 +40,7 @@ export const ModalSavePin = ({ open }) => {
       open={open}
       controls={[
         {
-          label: "Criar Pasta",
+          label: "Criar Aluno",
           loadingLabel: "Criando",
           loading: false,
           variant: "secondary",
