@@ -1,6 +1,7 @@
 export const openModalSavePinType = "modalSavePin";
 export const openModalCreatePinType = "modalCreatePin";
 export const openModalSaveFolderType = "modalCreateFolder";
+export const openModalExerciseDetailsType = "exerciseDetails";
 export const closeModalsType = "closeModals";
 
 export const fetchFoldersInitType = "fetchFoldersInit";

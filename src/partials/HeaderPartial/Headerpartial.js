@@ -8,7 +8,7 @@ export const HeaderPartial = () => {
   const { state, dispatch } = useAppContext();
   const handleChange = (e) => setCurrentGroupAction(dispatch,e.target.value);
   return (
-    <Navbar bg="primary" expand="lg">
+    <Navbar bg="primary" expand="lg" id="HeaderNav">
       <Container>
         <Navbar.Brand href="#home">Fitness+</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -25,6 +25,7 @@ import {
   setCurrentGroupSuccessType,
   deletePinInitType,
   deletePinSuccessType,
+  openModalExerciseDetailsType,
 } from "./types";
 import { getGroups } from "../services/groupService";
 
@@ -36,9 +37,15 @@ export const sleep = (time) => (
 export const openModalCreatePinAction = () => ({
   type: openModalCreatePinType
 });
-export const openModalSavePinAction = (pinId) => ({
+
+export const openModalSavePinAction = (pinId, data) => ({
   type: openModalSavePinType,
-  payload: pinId
+  payload: {pinId, data}
+});
+
+export const openModalExerciseDetailsAction = (clientId) => ({
+  type: openModalExerciseDetailsType,
+  payload: clientId
 });
 
 export const openModalSaveFolderAction = () => ({
@@ -73,12 +80,11 @@ export const saveFoldersSuccessAction = (folders) => ({
   payload: folders
 });
 
-export const saveFoldersAction = async (dispatch,folderName,pinId) => {
+export const saveFoldersAction = async (dispatch,folderName) => {
   dispatch(saveFoldersInitAction());
   await sleep(1000);
   const newFolder = await saveFolder(folderName);
-  const resultFolder = await savePinInFolder(newFolder.id,pinId);
-  dispatch(saveFoldersSuccessAction(resultFolder));
+  dispatch(saveFoldersSuccessAction(newFolder));
 };
 
 export const savePinInFolderInitAction = () => ({
@@ -90,10 +96,10 @@ export const savePinInFolderSuccessAction = (folders) => ({
   payload: folders
 });
 
-export const savePinInFolderAction = async (dispatch,folderId,pinId) => {
+export const savePinInFolderAction = async (dispatch,data) => {
   dispatch(savePinInFolderInitAction());
   await sleep(1000);
-  await savePinInFolder(folderId,pinId);
+  await savePinInFolder(data);
   const folders = await getFolders();
   dispatch(savePinInFolderSuccessAction(folders));
 };

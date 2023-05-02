@@ -31,10 +31,10 @@ export const savePin = async ({ name, group}) => {
   return newPin;
 };
 
-export const savePinInFolder = async (folderId, pinId) => {
+export const savePinInFolder = async ({clientId, ...data}) => {
   const folders = await getFolders();
-  let folder = folders.find((elem) => elem.id === folderId);
-  folder && folder.pins.push(pinId);
+  let folder = folders.find((elem) => elem.id === clientId);
+  folder && folder.pins.push(data);
   await saveFolders(folders);
   return folder ? { ...folder } : {};
 };

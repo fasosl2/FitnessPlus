@@ -3,10 +3,13 @@ import { MinhasPastas } from "./pages/MinhasPastas/MinhasPastasPage";
 import { HeaderPartial } from "./partials/HeaderPartial/Headerpartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
+import { Modals } from "./partials/Modals/Modals";
 
 const initialState = {
+  activeClientId: null,
   activePinId: null,
   activeGroup: "",
+  data: null,
   mode: null,
   type: null,
   folders: [],
@@ -24,6 +27,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/minhas-pastas" element={<MinhasPastas />} />
           </Routes>
+          <Modals />
         </AppContext>
       </div>
     </BrowserRouter>

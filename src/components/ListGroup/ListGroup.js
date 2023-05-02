@@ -46,11 +46,16 @@ export const ListGroup = ({ items = [] }) => {
               <ListGroupBS>
                 {state?.pins?.reduce(
                   (reducedPins, pin) =>
-                    (folder.pins.find((elem) => elem === pin.id) &&
+                    {
+                      let currentPin = folder.pins.find((elem) => elem.id === pin.id);
+                      return (currentPin &&
                       reducedPins.push(
                         <ListGroupBS.Item key={pin?.id}>
                           <Row style={{width:'100%'}}>
-                            <Col md={10}>{pin.title}</Col>
+                            <Col md={2}>{pin.title}</Col>
+                            <Col md={2}>{'Repetições: '+currentPin.reps}</Col>
+                            <Col md={2}>{'Séries: '+currentPin.series}</Col>
+                            <Col md={4}>{'Observações: '+currentPin.description}</Col>
                             <Col md={2}>
                               <Button
                                 variant="danger"
@@ -66,7 +71,7 @@ export const ListGroup = ({ items = [] }) => {
                         </ListGroupBS.Item>
                       ) &&
                       reducedPins) ||
-                    reducedPins,
+                    reducedPins},
                   []
                 )}
               </ListGroupBS>

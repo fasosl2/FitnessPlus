@@ -5,9 +5,10 @@ import { useAppContext } from "../../storage/AppContext";
 import { useEffect, useState } from "react";
 import {
   fetchFoldersAction,
-  savePinInFolderAction,
   openModalSaveFolderAction,
   removePinFromFolderAction,
+  openModalExerciseDetailsAction,
+  savePinInFolderAction,
 } from "../../storage/actions";
 
 export const ModalSavePin = ({ open }) => {
@@ -18,10 +19,17 @@ export const ModalSavePin = ({ open }) => {
     dispatch(openModalSaveFolderAction());
   };
 
-  const handleSavePinClick = async (folderId) => {
-    setItensLoading(prevState => ({...prevState,[folderId]:true}))
-    await savePinInFolderAction(dispatch, folderId, state.activePinId);
-    setItensLoading(prevState => ({...prevState,[folderId]:false}))
+  
+  const handleSavePinClick = (clientId) => {
+    dispatch(openModalExerciseDetailsAction(clientId));
+  }
+
+  
+
+  const savePinInFolder = async () => {
+    setItensLoading(prevState => ({...prevState,[state.activeClientId]:true}))
+    await savePinInFolderAction(dispatch, state.data);
+    setItensLoading(prevState => ({...prevState,[state.activeClientId]:false}))
   };
 
   const handleDeletePinClick = async (folderId) => {
@@ -31,8 +39,12 @@ export const ModalSavePin = ({ open }) => {
   };
 
   useEffect(() => {
-    fetchFoldersAction(dispatch);
-  }, [dispatch]);
+    if(state.data){
+      savePinInFolder();
+    } else {
+      fetchFoldersAction(dispatch);
+    }
+  },[dispatch,state.data]);
 
   return (
     <Modal
@@ -50,7 +62,7 @@ export const ModalSavePin = ({ open }) => {
     >
       <ListGroup variant="flush">
         {state?.folders?.map((folder, folderIndex) => {
-          let pinSaved = folder.pins.find(pin => pin === state.activePinId)
+          let pinSaved = folder.pins.find(pin => pin.id === state.activePinId)
           return (
           <ListGroup.Item key={folderIndex}>
             <Row>

@@ -13,24 +13,32 @@ import {
   savePinsSuccessType,
   setCurrentGroupSuccessType,
   deletePinSuccessType,
+  openModalExerciseDetailsType,
 } from "./types";
 
 export function reducer(state, action) {
   let stateAction = {type: action?.type};
   switch (action.type) {
     case openModalSavePinType:
-      stateAction.mode = "savePin";
-      stateAction.activePinId = action.payload;
+      stateAction.mode = action.type;
+      stateAction.activePinId = action.payload.pinId;
+      stateAction.data = action.payload?.data;
+      break;
+    case openModalExerciseDetailsType:
+      stateAction.mode = action.type
+      stateAction.activeClientId = action.payload;
       break;
     case openModalSaveFolderType:
-      stateAction.mode = "createFolder";
+      stateAction.mode = action.type;
       break;
     case openModalCreatePinType:
-      stateAction.mode = "createPin";
+      stateAction.mode = action.type;
       break;
     case closeModalsType:
       stateAction.mode = null;
       stateAction.activePinId = null;
+      stateAction.activeClientId = null;
+      stateAction.data = null;
       break;
     case fetchFoldersSuccessType:
       stateAction.folders = action.payload;
@@ -43,6 +51,7 @@ export function reducer(state, action) {
       break;
     case savePinInFolderSuccessType:
       stateAction.folders = action.payload;
+      stateAction.data = null;
       break;
     case removePinFromFolderSuccessType:
       stateAction.folders = action.payload;

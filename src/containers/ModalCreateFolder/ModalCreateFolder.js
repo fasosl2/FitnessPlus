@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { closeModalsAction, saveFoldersAction } from "../../storage/actions";
+import { closeModalsAction, openModalSavePinAction, saveFoldersAction } from "../../storage/actions";
 import { saveFoldersInitType, saveFoldersSuccessType } from "../../storage/types";
 
 export const ModalCreateFolder = ({ open }) => {
@@ -10,13 +10,17 @@ export const ModalCreateFolder = ({ open }) => {
     const { state, dispatch } = useAppContext();
     const handleSubmit = (e) =>{
         e.preventDefault();
-        saveFoldersAction(dispatch,folderName,state.activePinId)
+        saveFoldersAction(dispatch,folderName)
     }
     useEffect(() => {
       if (state.type === saveFoldersSuccessType) {
-        dispatch(closeModalsAction());
+        if(state.activePinId){
+          dispatch(openModalSavePinAction(state.activePinId));
+        } else {
+          dispatch(closeModalsAction());
+        }
       }
-    }, [state.type,dispatch]);
+    }, [state.type,dispatch,state.activePinId]);
 
     const handleChange = (e) => setFolderName(e.target.value);
   return (
@@ -25,7 +29,7 @@ export const ModalCreateFolder = ({ open }) => {
       open={open}
       controls={[
         {
-          label: "Criar e Salvar",
+          label: "Salvar",
           loadingLabel: "Criando",
           loading: state.type === saveFoldersInitType,
           variant: "secondary",
@@ -37,8 +41,8 @@ export const ModalCreateFolder = ({ open }) => {
     >
       <Form onSubmit={handleSubmit} id="form-create-folder">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Nome da pasta</Form.Label>
-          <Form.Control type="text" placeholder="Ex: Matemática" value={folderName} onChange={handleChange}/>
+          <Form.Label>Nome do Aluno</Form.Label>
+          <Form.Control type="text" placeholder="Ex: João, Maria..." value={folderName} onChange={handleChange}/>
         </Form.Group>
       </Form>
     </Modal>
