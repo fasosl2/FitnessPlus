@@ -42,8 +42,8 @@ export const savePinInFolder = async ({clientId, ...data}) => {
 
 export const deletePinFromFolder = async (folderId, pinId) => {
   let folders = await getFolders();
-  let folder = folders.find((elem) => elem.id === folderId);
-  let pinIndex = folder?.pins?.indexOf(pinId);
+  let folder = folders.find(elem => elem.id === folderId);
+  let pinIndex = folder?.pins?.findIndex(elem => elem.id === pinId);
   pinIndex !== null && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
   await saveFolders(folders);
   return folder ? { ...folder } : {};
@@ -53,8 +53,7 @@ export const deletePinFromFolder = async (folderId, pinId) => {
 export const deletePin = async (pinId) => {
   let folders = await getFolders();
   folders = folders.map((folder) => {
-    let pinIndex = folder?.pins?.indexOf(pinId);
-    pinIndex !== null && pinIndex !== -1 && folder.pins.splice(pinIndex,1);
+    deletePinFromFolder(folder.id, pinId);
     return folder;
   });
   await saveFolders(folders);

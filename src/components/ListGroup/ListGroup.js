@@ -15,10 +15,7 @@ export const ListGroup = ({ items = [] }) => {
   const [itensLoading, setItensLoading] = useState({});
 
   const handleDeletePinClick = async (folderId, pinId) => {
-    setItensLoading((prevState) => ({
-      ...prevState,
-      [`${folderId}${pinId}`]: true,
-    }));
+    setItensLoading((prevState) => ({...prevState,[`${folderId}${pinId}`]: true,}));
     await removePinFromFolderAction(dispatch, folderId, pinId);
     setItensLoading((prevState) => ({
       ...prevState,
