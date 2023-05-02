@@ -122,7 +122,6 @@ export const setCurrentGroupSuccessAction = (group) => ({
 });
 export const setCurrentGroupAction = async (dispatch,group) => {
   dispatch(setCurrentGroupInitAction());
-  await sleep(1000);
   dispatch(setCurrentGroupSuccessAction(group));
 };
 
